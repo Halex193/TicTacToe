@@ -3,19 +3,45 @@ import java.util.Scanner;
 public class Main
 {
 
-    char[][] signs = new char[][]{
-            {' ', ' ', ' '},
-            {' ', ' ', ' '},
-            {' ', ' ', ' '}
-    };
-    final int dim = 3;
+    final int winNum;
+    final int dim;
+    char[][] signs;
     boolean sign = false;
     int x;
     int y;
 
     public static void main(String[] args)
     {
-        new Main().play();
+        System.out.println("Choose board size: ");
+        Scanner s = new Scanner(System.in);
+        int size;
+        while ((size = s.nextInt()) > 0)
+        {
+            int winNum = 0;
+            while (!(winNum > 2 && winNum <= size))
+            {
+                System.out.println("Choose the number of signs to win: ");
+                winNum = s.nextInt();
+            }
+            new Main(size, winNum).play();
+            System.out.println("\nChoose new board size: ");
+        }
+        System.out.println("Have a good day!");
+    }
+
+    Main(int dim, int winNum)
+    {
+        this.dim = dim;
+        signs = new char[dim][];
+        for (int i = 0; i < dim; i++)
+        {
+            signs[i] = new char[dim];
+            for (int j = 0; j < dim; j++)
+            {
+                signs[i][j] = ' ';
+            }
+        }
+        this.winNum = winNum;
     }
 
     void play()
@@ -42,8 +68,13 @@ public class Main
 
             System.out.println();
             if (i != dim - 1)
-                System.out.println("-----------");
-
+            {
+                for (int j = 0; j < dim; j++)
+                {
+                    System.out.print("----");
+                }
+                System.out.println();
+            }
         }
         System.out.println();
     }
@@ -78,7 +109,7 @@ public class Main
 
         for (int[] dir : directions)
         {
-            if (count(x, y, dir, chr) + count(x, y, invert(dir), chr) + 1 == 3) return true;
+            if (count(x, y, dir, chr) + count(x, y, invert(dir), chr) + 1 == winNum) return true;
         }
         return false;
     }

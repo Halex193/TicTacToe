@@ -9,9 +9,9 @@ public class Main
             {' ', ' ', ' '}
     };
     static final int dim = 3;
-    public static boolean sign = false;
-    public static int x;
-    public static int y;
+    private static boolean sign = false;
+    private static int x;
+    private static int y;
 
     public static void main(String[] args)
     {
@@ -92,7 +92,7 @@ public class Main
         return n >= min && n < max;
     }
 
-    public static void printBoard()
+    private static void printBoard()
     {
         for (int i = 0; i < dim; i++)
         {

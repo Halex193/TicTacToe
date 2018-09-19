@@ -3,17 +3,22 @@ import java.util.Scanner;
 public class Main
 {
 
-    static char[][] signs = new char[][]{
+    char[][] signs = new char[][]{
             {' ', ' ', ' '},
             {' ', ' ', ' '},
             {' ', ' ', ' '}
     };
-    static final int dim = 3;
-    private static boolean sign = false;
-    private static int x;
-    private static int y;
+    final int dim = 3;
+    boolean sign = false;
+    int x;
+    int y;
 
     public static void main(String[] args)
+    {
+        new Main().play();
+    }
+
+    void play()
     {
         printBoard();
         while (!won())
@@ -24,7 +29,26 @@ public class Main
         System.out.println(convertSign() + " has won!");
     }
 
-    private static void newMove()
+    void printBoard()
+    {
+        for (int i = 0; i < dim; i++)
+        {
+            for (int j = 0; j < dim; j++)
+            {
+                System.out.print(" " + signs[i][j] + " ");
+                if (j != dim - 1)
+                    System.out.print("|");
+            }
+
+            System.out.println();
+            if (i != dim - 1)
+                System.out.println("-----------");
+
+        }
+        System.out.println();
+    }
+
+    void newMove()
     {
         x = -1;
         y = -1;
@@ -42,12 +66,7 @@ public class Main
         signs[y][x] = convertSign();
     }
 
-    private static char convertSign()
-    {
-        return sign ? 'X' : 'O';
-    }
-
-    private static boolean won()
+    boolean won()
     {
         int[][] directions = new int[][]{
                 {0, 1},
@@ -64,7 +83,12 @@ public class Main
         return false;
     }
 
-    private static int count(int x, int y, int[] dir, char chr)
+    char convertSign()
+    {
+        return sign ? 'X' : 'O';
+    }
+
+    int count(int x, int y, int[] dir, char chr)
     {
         int count = -1;
         do
@@ -77,37 +101,18 @@ public class Main
         return count;
     }
 
-    private static int[] invert(int[] dir)
+    int[] invert(int[] dir)
     {
         return new int[]{-dir[0], -dir[1]};
     }
 
-    private static boolean isValid(int x, int y)
+    boolean isValid(int x, int y)
     {
-        return between(x, 0, dim) && between(y, 0, dim);
+        return checkMax(x, dim) && checkMax(y, dim);
     }
 
-    private static boolean between(int n, int min, int max)
+    boolean checkMax(int n, int max)
     {
-        return n >= min && n < max;
-    }
-
-    private static void printBoard()
-    {
-        for (int i = 0; i < dim; i++)
-        {
-            for (int j = 0; j < dim; j++)
-            {
-                System.out.print(" " + signs[i][j] + " ");
-                if (j != dim - 1)
-                    System.out.print("|");
-            }
-
-            System.out.println();
-            if (i != dim - 1)
-                System.out.println("-----------");
-
-        }
-        System.out.println();
+        return n >= 0 && n < max;
     }
 }

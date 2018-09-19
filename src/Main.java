@@ -2,13 +2,13 @@ import java.util.Scanner;
 
 public class Main
 {
-
     final int winNum;
     final int dim;
     char[][] signs;
     boolean sign = false;
     int x;
     int y;
+    int moves = 0;
 
     public static void main(String[] args)
     {
@@ -52,7 +52,10 @@ public class Main
             newMove();
             printBoard();
         }
-        System.out.println(convertSign() + " has won!");
+        if (moves != dim*dim)
+            System.out.println(convertSign() + " has won!");
+        else
+            System.out.println("The game has ended in a tie!");
     }
 
     void printBoard()
@@ -95,6 +98,7 @@ public class Main
             System.out.println();
         }
         signs[y][x] = convertSign();
+        moves++;
     }
 
     boolean won()
@@ -111,7 +115,7 @@ public class Main
         {
             if (count(x, y, dir, chr) + count(x, y, invert(dir), chr) + 1 == winNum) return true;
         }
-        return false;
+        return moves == dim*dim;
     }
 
     char convertSign()
